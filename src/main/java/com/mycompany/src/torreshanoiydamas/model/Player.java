@@ -1,16 +1,20 @@
 
 package com.mycompany.src.torreshanoiydamas.model;
 
-public abstract class Player {
+public class Player {
 
-	public abstract boolean isHuman();
+	public boolean isHuman() {
+		return true;
+	}
 	
-	public abstract void updateGame(Game game);
 	
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + "[isHuman=" + isHuman() + "]";
 	}
 	public static void name() {
+	}
+	public void updateGame(Game game) {
+            
 	}
 }

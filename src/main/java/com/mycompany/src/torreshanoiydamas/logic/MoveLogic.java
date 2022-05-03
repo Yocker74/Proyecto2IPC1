@@ -1,10 +1,10 @@
 package com.mycompany.src.torreshanoiydamas.logic;
 
-import com.mycompany.src.torreshanoiydamas.model.Board;
-import com.mycompany.src.torreshanoiydamas.model.Game;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import  com.mycompany.src.torreshanoiydamas.model.Board;
+import  com.mycompany.src.torreshanoiydamas.model.Game;
 
 public class MoveLogic {
 

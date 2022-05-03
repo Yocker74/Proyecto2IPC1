@@ -1,8 +1,8 @@
 package com.mycompany.src.torreshanoiydamas.logic;
-import com.mycompany.src.torreshanoiydamas.model.Board;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import  com.mycompany.src.torreshanoiydamas.model.Board;
 
 public class MoveGenerator {
 	public static List<Point> getMoves(Board board, Point start) {

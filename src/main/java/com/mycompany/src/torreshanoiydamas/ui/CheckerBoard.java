@@ -1,9 +1,7 @@
 package com.mycompany.src.torreshanoiydamas.ui;
 
-import com.mycompany.src.torreshanoiydamas.logic.MoveGenerator;
 import com.mycompany.src.torreshanoiydamas.model.Board;
 import com.mycompany.src.torreshanoiydamas.model.Game;
-import com.mycompany.src.torreshanoiydamas.model.HumanPlayer;
 import com.mycompany.src.torreshanoiydamas.model.Player;
 import java.awt.Color;
 import java.awt.Font;
@@ -35,15 +33,11 @@ public class CheckerBoard extends JButton {
 	public CheckerBoard(CheckersWindow window) {
 		this(window, new Game(), null, null);
 	}
-	public CheckerBoard(CheckersWindow window, Game game,
-			Player player1, Player player2) {
 
-		super.setBorderPainted(false);
-		super.setFocusPainted(false);
-		super.setContentAreaFilled(false);
-		super.setBackground(Color.LIGHT_GRAY);
+	public CheckerBoard(CheckersWindow window, Game game,Player player1, Player player2) {
+
+		super.setBackground(Color.WHITE);
 		this.addActionListener(new ClickListener());
-
 		this.game = (game == null)? new Game() : game;
 		this.lightTile = Color.WHITE;
 		this.darkTile = Color.BLACK;
@@ -76,8 +70,7 @@ public class CheckerBoard extends JButton {
 		this.timer.start();
 	}
 	
-	public synchronized boolean setGameState(boolean testValue,
-			String newState, String expected) {
+	public boolean setGameState(boolean testValue,String newState, String expected) {
 		if (testValue && !game.getGameState().equals(expected)) {
 			return false;
 		}
@@ -190,7 +183,7 @@ public class CheckerBoard extends JButton {
 			}
 		}
 
-		String msg = game.isP1Turn()? "Player 1's turn" : "Player 2's turn";
+		String msg = game.isP1Turn()? "Turno Jugador 1" : "Turno Jugador 2";
 		int width = g.getFontMetrics().stringWidth(msg);
 		Color back = game.isP1Turn()? Color.BLACK : Color.WHITE;
 		Color front = game.isP1Turn()? Color.WHITE : Color.BLACK;
@@ -202,7 +195,7 @@ public class CheckerBoard extends JButton {
 
 		if (isGameOver) {
 			g.setFont(new Font("Arial", Font.BOLD, 20));
-			msg = "Game Over!";
+			msg = "Juego Terminado";
 			width = g.getFontMetrics().stringWidth(msg);
 			g.setColor(new Color(240, 240, 255));
 			g.fillRoundRect(W / 2 - width / 2 - 5,
@@ -234,7 +227,7 @@ public class CheckerBoard extends JButton {
 	}
 
 	public void setPlayer1(Player player1) {
-		this.player1 = (player1 == null)? new HumanPlayer() : player1;
+		this.player1 = (player1 == null)? new Player() : player1;
 		if (game.isP1Turn() && !this.player1.isHuman()) {
 			this.selected = null;
 		}
@@ -245,7 +238,7 @@ public class CheckerBoard extends JButton {
 	}
 
 	public void setPlayer2(Player player2) {
-		this.player2 = (player2 == null)? new HumanPlayer() : player2;
+		this.player2 = (player2 == null)? new Player() : player2;
 		if (!game.isP1Turn() && !this.player2.isHuman()) {
 			this.selected = null;
 		}
@@ -315,11 +308,7 @@ public class CheckerBoard extends JButton {
 		} else if(isP1Turn ^ (id == Board.BLACK_CHECKER ||
 				id == Board.BLACK_KING)) { 
 			return false;
-		} else if (!MoveGenerator.getSkips(b, i).isEmpty()) { 
-			return true;
-		} else if (MoveGenerator.getMoves(b, i).isEmpty()) { 
-			return false;
-		}
+		} 
 	
 		List<Point> points = b.find(
 				isP1Turn? Board.BLACK_CHECKER : Board.WHITE_CHECKER);
@@ -330,9 +319,7 @@ public class CheckerBoard extends JButton {
 			if (checker == i) {
 				continue;
 			}
-			if (!MoveGenerator.getSkips(b, checker).isEmpty()) {
-				return false;
-			}
+
 		}
 
 		return true;

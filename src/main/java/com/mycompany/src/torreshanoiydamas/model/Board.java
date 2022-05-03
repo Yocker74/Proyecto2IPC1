@@ -109,7 +109,6 @@ public class Board {
 			target |= (1 << bit);
 		}
 		
-		// Clear the bit
 		else {
 			target &= (~(1 << bit));
 		}
@@ -175,7 +174,7 @@ public class Board {
 		
 		return true;
 	}
-	
+	/*
 	@Override
 	public String toString() {
 		String obj = getClass().getName() + "[";
@@ -185,5 +184,5 @@ public class Board {
 		obj += get(31);
 		
 		return obj + "]";
-	}
+	}*/
 }
