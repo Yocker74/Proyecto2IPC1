@@ -174,15 +174,4 @@ public class Board {
 		
 		return true;
 	}
-	/*
-	@Override
-	public String toString() {
-		String obj = getClass().getName() + "[";
-		for (int i = 0; i < 31; i ++) {
-			obj += get(i) + ", ";
-		}
-		obj += get(31);
-		
-		return obj + "]";
-	}*/
 }

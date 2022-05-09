@@ -1,13 +1,12 @@
 package com.mycompany.src.torreshanoiydamas.ui;
 
 
+import com.mycompany.src.torreshanoiydamas.users.Users;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
-
-import java.util.TimerTask;
 
 import javax.swing.*;
 import javax.swing.JButton;
@@ -20,30 +19,35 @@ public class OptionPanel extends JPanel {
 	private JButton saveGameButton;
 	Timer timer;
 	int second=0;
+        JButton loadGame;
     int minute=0;
     String ddSecond;
     String ddMinute;
+    Users user;
     DecimalFormat dFormat= new DecimalFormat("00");
 	JButton initiate;
 	private JLabel chrono;
-	public OptionPanel(CheckersWindow window) {
+	public OptionPanel(CheckersWindow window, Users user) {
 		super(new GridLayout(0, 1));
 		this.window = window;
+                this.user = user;
 		OptionListener ol = new OptionListener();
 		
 		this.saveGameButton = new JButton("Guardar Partida");
 		this.saveGameButton.addActionListener(ol);
 		this.initiate= new JButton("Iniciar Partida");
 		this.initiate.addActionListener(ol);	
-
+                this.loadGame=new JButton("Cargar Partida");
 		JLabel labelTypeOfGame = new JLabel(" Juego contra otro jugador");
 		 chrono = new JLabel("00:00");
 		JPanel top = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JPanel middle = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JPanel bottom = new JPanel(new FlowLayout(FlowLayout.LEFT));
 				labelTypeOfGame.setBounds((int) CENTER_ALIGNMENT, 50, 100, 10);
+                                
 		top.add(saveGameButton);
 		top.add(initiate);
+                top.add(loadGame);
 		middle.add(new JLabel("(Negro) Jugador 1: "));
 		bottom.add(new JLabel("(Blanco) Jugador 2: "));
 		this.add(top);
@@ -73,12 +77,7 @@ public class OptionPanel extends JPanel {
             }
         });
     }
-	public CheckersWindow getWindow() {
-		return window;
-	}
-	public void setWindow(CheckersWindow window) {
-		this.window = window;
-	}
+	
 	
 	private class OptionListener implements ActionListener {
 		@Override
@@ -87,7 +86,6 @@ public class OptionPanel extends JPanel {
 				return;
 			}
 			Object src = e.getSource();
-			JButton btn = null;
 			if (src == saveGameButton) {
 				
 				second=0;
@@ -96,6 +94,7 @@ public class OptionPanel extends JPanel {
 				
 				timer.stop();
 				initiate.setVisible(true);
+                                user.addCheckersgame(window);
 			} 
 			if(src ==initiate){
 				simpleTimer();

@@ -79,9 +79,10 @@
                       <EmptySpace min="-2" pref="190" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="userName" min="-2" pref="180" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="hanoi" min="-2" pref="170" max="-2" attributes="0"/>
-                              <Component id="checkers" min="-2" pref="170" max="-2" attributes="0"/>
+                          <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="hanoi" pref="170" max="32767" attributes="0"/>
+                              <Component id="checkers" pref="170" max="32767" attributes="0"/>
+                              <Component id="statistics" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -96,11 +97,13 @@
               <Component id="jLabel1" min="-2" pref="48" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="userName" min="-2" pref="40" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
               <Component id="hanoi" min="-2" pref="50" max="-2" attributes="0"/>
-              <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               <Component id="checkers" min="-2" pref="50" max="-2" attributes="0"/>
-              <EmptySpace pref="115" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="statistics" min="-2" pref="48" max="-2" attributes="0"/>
+              <EmptySpace pref="80" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -132,6 +135,14 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="NoUser"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="statistics">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Estadisticas de Juego"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="statisticsActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

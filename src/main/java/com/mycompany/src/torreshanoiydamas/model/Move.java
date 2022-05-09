@@ -59,11 +59,5 @@ public class Move {
 	
 	public void changeWeight(double delta) {
 		this.weight += delta;
-	}
-	
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + "[startIndex=" + startIndex + ", "
-				+ "endIndex=" + endIndex + ", weight=" + weight + "]";
-	}
+	}	
 }

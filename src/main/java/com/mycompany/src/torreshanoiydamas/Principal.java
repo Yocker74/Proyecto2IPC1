@@ -7,27 +7,36 @@ package com.mycompany.src.torreshanoiydamas;
  */
 import com.mycompany.src.torreshanoiydamas.Pila;
 import com.mycompany.src.torreshanoiydamas.Node;
+import com.mycompany.src.torreshanoiydamas.users.Users;
 import java.awt.event.ActionEvent;
 import java.text.DecimalFormat;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import javax.swing.SwingConstants;
 import javax.swing.JDialog;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+
 /**
  *
  * @author mdyoc
  */
-public final class Principal extends javax.swing.JFrame {
+
+public final class Principal extends javax.swing.JFrame{
 
     /**
      * Creates new form Principal
      */
     Timer timer;
     Pila pilaTowerA,pilaTowerB,pilaTowerC;
-    boolean stop =false;
+
     int counterMoves=0;
     double numMovs=0;
     DefaultTableModel modelA, modelB, modelC;
@@ -38,11 +47,14 @@ public final class Principal extends javax.swing.JFrame {
     String ddMinute;
     DecimalFormat dFormat= new DecimalFormat("00");
     principalMenu principal;
+    Users user;
+    Principal newGame;
     
-    
-    public Principal(principalMenu principal) {
+  
+    public Principal(principalMenu principal,Users user) {
         initComponents();
-   this.principal=principal;
+        this.principal=principal;
+        this.user=user;
         modelA= (DefaultTableModel)tower1.getModel();
         modelA.setRowCount(8);
         modelB= (DefaultTableModel)tower2.getModel();
@@ -96,16 +108,17 @@ public final class Principal extends javax.swing.JFrame {
         startBtn = new javax.swing.JButton();
         hintBtn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        minMovs = new javax.swing.JLabel();
         counterLabel = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        minMovs = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         menu1.setLabel("File");
         menuBar1.add(menu1);
@@ -267,14 +280,12 @@ public final class Principal extends javax.swing.JFrame {
             }
         });
 
-        hintBtn.setText("Pista");
+        hintBtn.setText("Resolver");
         hintBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hintBtnActionPerformed(evt);
             }
         });
-
-        minMovs.setText("Handed with Love");
 
         counterLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 24)); // NOI18N
         counterLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -283,6 +294,8 @@ public final class Principal extends javax.swing.JFrame {
         jButton2.setText("jButton2");
 
         jButton3.setText("jButton3");
+
+        minMovs.setText("jLabel4");
 
         jMenu1.setText("Opciones de Juego");
         jMenu1.add(jSeparator1);
@@ -313,6 +326,14 @@ public final class Principal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem3);
+
+        jMenuItem4.setText("Cargar Partida");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem4);
 
         jMenuBar1.add(jMenu1);
 
@@ -378,7 +399,7 @@ public final class Principal extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(counterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(minMovs, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(minMovs, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -421,9 +442,8 @@ public final class Principal extends javax.swing.JFrame {
                         .addComponent(noOfMoves, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(minMovs, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(68, 68, 68)
+                .addComponent(minMovs))
         );
 
         pack();
@@ -489,10 +509,12 @@ private void moveFromAToC(){
             showTowerC();
             ShowCounterMovements();
             
-            if(pilaTowerC.getCounterNodes()==target&& counterMoves==numMovs){
+            if(pilaTowerC.getCounterNodes()==target){
                 JOptionPane.showMessageDialog(null,"Juego Finalizado","Felicitaciones",JOptionPane.INFORMATION_MESSAGE);
-            }else if(pilaTowerC.getCounterNodes()==target&& counterMoves!=numMovs){
-                JOptionPane.showMessageDialog(null,"Juego Finalizado","Felicitaciones",JOptionPane.INFORMATION_MESSAGE);
+                user.setjJHanoi(user.getjJHanoi()+1);
+                user.setjGHanoi(user.getjGHanoi()+1);
+                user.setTiempoHanoi(user.getTiempoHanoi()+second+60*minute);
+                user.setJugadasRealizadasHanoi(user.getJugadasRealizadasHanoi()+counterMoves);
             }
         }
     }catch(Exception e){
@@ -558,7 +580,7 @@ minute=0;
     }//GEN-LAST:event_startBtnActionPerformed
 
     private void hintBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hintBtnActionPerformed
-if( !minMovs.getText().equals("")&& pilaTowerC.getCounterNodes()!= target){
+if(  pilaTowerC.getCounterNodes()!= target){
     reinitiate();
     stop=false;
     solveHanoi(target, pilaTowerA,pilaTowerB,pilaTowerC);
@@ -626,9 +648,13 @@ private void moveFromBToC(){
             ShowCounterMovements();
             
             if(pilaTowerC.getCounterNodes()==target&& counterMoves==numMovs){
+                timer.stop();
                 JOptionPane.showMessageDialog(null,"Juego Finalizado","Felicitaciones",JOptionPane.INFORMATION_MESSAGE);
+          
             }else if(pilaTowerC.getCounterNodes()==target&& counterMoves!=numMovs){
+                timer.stop();
                 JOptionPane.showMessageDialog(null,"Juego Finalizado","Felicitaciones",JOptionPane.INFORMATION_MESSAGE);
+            
             }
         }
     }catch(Exception e){
@@ -645,13 +671,28 @@ moveFromCToB();        // TODO add your handling code here:
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
 
+ArrayList<Object> data = new ArrayList<Object>();
+data.add(this);
+
+        try{
+            FileOutputStream fileOut = new  FileOutputStream("data.ser");
+            ObjectOutputStream out = new  ObjectOutputStream(fileOut);
+            out.writeObject(data);
+            out.close();
+            fileOut.close();
+            System.out.println("Se salva la data");
+        }catch(IOException i){
+            i.printStackTrace();
+        }
         
 
-          ;
+          
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
- second=0;
+
+        counterMoves=0;
+        second=0;
 minute=0;
         startBtn.setVisible(true);
         timer.stop();
@@ -677,6 +718,24 @@ minute=0;
     private void noOfDisksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noOfDisksActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_noOfDisksActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+  
+        ArrayList<Object> deserialized= new ArrayList<Object>();
+        try{
+            FileInputStream fileIn= new FileInputStream("data.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            deserialized = (ArrayList<Object>)in.readObject();
+            in.close();
+        }catch(IOException i){
+        }catch(ClassNotFoundException c){
+            
+        }
+        
+        newGame=user.juegosHanoi.get(0);
+
+
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -769,7 +828,7 @@ minute=0;
     }
     
     private void movePlatform(Pila origin, Pila destiny){
-        if(stop=false){
+        if(stop==false){
             Node platform= new Node();
             
             platform.setData(origin.peek());
@@ -780,7 +839,7 @@ minute=0;
             showTowerC();
             ShowCounterMovements();
             JOptionPane pane = new JOptionPane("",JOptionPane.QUESTION_MESSAGE,JOptionPane.YES_NO_OPTION) ;
-            JDialog dialog = pane.createDialog("Numero de pasos");
+            JDialog dialog = pane.createDialog("Seguir resolviendo");
             dialog.setLocationRelativeTo(null);
             dialog.setVisible(true);
             int opt = (int)pane.getValue();
@@ -789,6 +848,7 @@ minute=0;
             }
         }
     }
+    boolean stop=false;
     private void solveHanoi(int n, Pila A, Pila B, Pila C){
         if(n==1){
             movePlatform(A,C);
@@ -822,6 +882,7 @@ minute=0;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

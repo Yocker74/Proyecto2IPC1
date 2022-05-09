@@ -7,14 +7,8 @@ import java.util.List;
 
 
 public class Game {
-
-	/** The current state of the checker board. */
 	private Board board;
-	
-	/** The flag indicating if it is player 1's turn. */
 	private boolean isP1Turn;
-	
-	/** The index of the last skip, to allow for multiple skips in a turn. */
 	private int skipIndex;
 	
 	public Game() {
@@ -64,7 +58,6 @@ public class Game {
 		this.board.set(midIndex, Board.EMPTY);
 		this.board.set(startIndex, Board.EMPTY);
 		
-		// Make the checker a king if necessary
 		Point end = Board.toPoint(endIndex);
 		int id = board.get(endIndex);
 		boolean switchTurn = false;
@@ -134,14 +127,10 @@ public class Game {
 	}
 	
 	public String getGameState() {
-		
-		// Add the game board
 		String state = "";
 		for (int i = 0; i < 32; i ++) {
 			state += "" + board.get(i);
 		}
-		
-		// Add the other info
 		state += (isP1Turn? "1" : "0");
 		state += skipIndex;
 		
@@ -151,13 +140,9 @@ public class Game {
 	public void setGameState(String state) {
 		
 		restart();
-		
-		// Trivial cases
 		if (state == null || state.isEmpty()) {
 			return;
 		}
-		
-		// Update the board
 		int n = state.length();
 		for (int i = 0; i < 32 && i < n; i ++) {
 			try {
@@ -165,8 +150,6 @@ public class Game {
 				this.board.set(i, id);
 			} catch (NumberFormatException e) {}
 		}
-		
-		// Update the other info
 		if (n > 32) {
 			this.isP1Turn = (state.charAt(32) == '1');
 		}

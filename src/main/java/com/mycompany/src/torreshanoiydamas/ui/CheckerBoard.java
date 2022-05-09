@@ -3,6 +3,7 @@ package com.mycompany.src.torreshanoiydamas.ui;
 import com.mycompany.src.torreshanoiydamas.model.Board;
 import com.mycompany.src.torreshanoiydamas.model.Game;
 import com.mycompany.src.torreshanoiydamas.model.Player;
+import com.mycompany.src.torreshanoiydamas.users.Users;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -13,11 +14,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JButton;
-import javax.swing.Timer;
+
 
 public class CheckerBoard extends JButton {
 
-	private static final int TIMER_DELAY = 1000;
+    Users user;
 	private static final int PADDING = 16;
 	private Game game;
 	private CheckersWindow window;
@@ -28,10 +29,10 @@ public class CheckerBoard extends JButton {
 	private Color lightTile;
 	private Color darkTile;
 	private boolean isGameOver;
-	private Timer timer;
 	
-	public CheckerBoard(CheckersWindow window) {
+	public CheckerBoard(CheckersWindow window, Users user) {
 		this(window, new Game(), null, null);
+                this.user= user;
 	}
 
 	public CheckerBoard(CheckersWindow window, Game game,Player player1, Player player2) {
@@ -47,27 +48,8 @@ public class CheckerBoard extends JButton {
 	}
 	
 	public void update() {
-		runPlayer();
 		this.isGameOver = game.isGameOver();
 		repaint();
-	}
-	
-	private void runPlayer() {
-
-		Player player = getCurrentPlayer();
-		if (player == null || player.isHuman() ) {
-			return;
-		}
-		this.timer = new Timer(TIMER_DELAY, new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				getCurrentPlayer().updateGame(game);
-				timer.stop();
-				update();
-			}
-		});
-		this.timer.start();
 	}
 	
 	public boolean setGameState(boolean testValue,String newState, String expected) {
@@ -176,15 +158,17 @@ public class CheckerBoard extends JButton {
 				}
 
 				if (id == Board.BLACK_KING || id == Board.WHITE_KING) {
-					g.setColor(new Color(255, 240,0));
+					g.setColor(new Color(169, 169,169));
 					g.drawOval(cx - 1, cy - 2, CHECKER_SIZE, CHECKER_SIZE);
 					g.drawOval(cx + 1, cy, CHECKER_SIZE - 4, CHECKER_SIZE - 4);
 				}
 			}
 		}
 
-		String msg = game.isP1Turn()? "Turno Jugador 1" : "Turno Jugador 2";
+		String msg = game.isP1Turn()? "Turno de "+ user.getName() : "Turno Jugador 2";
+                user.setJugadasRealizadasDamas(user.getJugadasRealizadasDamas()+1);
 		int width = g.getFontMetrics().stringWidth(msg);
+                
 		Color back = game.isP1Turn()? Color.BLACK : Color.WHITE;
 		Color front = game.isP1Turn()? Color.WHITE : Color.BLACK;
 		g.setColor(back);
@@ -195,6 +179,9 @@ public class CheckerBoard extends JButton {
 
 		if (isGameOver) {
 			g.setFont(new Font("Arial", Font.BOLD, 20));
+                        user.setjJDamas(user.getjJDamas()+1);
+                        user.setjGDamas(user.getjGDamas()+1);
+                        
 			msg = "Juego Terminado";
 			width = g.getFontMetrics().stringWidth(msg);
 			g.setColor(new Color(240, 240, 255));
@@ -228,9 +215,7 @@ public class CheckerBoard extends JButton {
 
 	public void setPlayer1(Player player1) {
 		this.player1 = (player1 == null)? new Player() : player1;
-		if (game.isP1Turn() && !this.player1.isHuman()) {
-			this.selected = null;
-		}
+		
 	}
 
 	public Player getPlayer2() {
@@ -239,9 +224,7 @@ public class CheckerBoard extends JButton {
 
 	public void setPlayer2(Player player2) {
 		this.player2 = (player2 == null)? new Player() : player2;
-		if (!game.isP1Turn() && !this.player2.isHuman()) {
-			this.selected = null;
-		}
+		
 	}
 	
 	public Player getCurrentPlayer() {
@@ -266,7 +249,7 @@ public class CheckerBoard extends JButton {
 
 	private void handleClick(int x, int y) {
 
-		if (isGameOver || !getCurrentPlayer().isHuman()) {
+		if (isGameOver ) {
 			return;
 		}
 		

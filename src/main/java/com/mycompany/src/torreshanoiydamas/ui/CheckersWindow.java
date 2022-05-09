@@ -1,6 +1,6 @@
 package com.mycompany.src.torreshanoiydamas.ui;
-import com.mycompany.src.torreshanoiydamas.model.Player;
 
+import com.mycompany.src.torreshanoiydamas.users.Users;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
@@ -10,26 +10,18 @@ public class CheckersWindow extends JFrame {
 	private CheckerBoard board;
 	private OptionPanel opts;
 	
-	public CheckersWindow(int width, int height, String title) {
+	public CheckersWindow(int width, int height, String title,Users user) {
 		super(title);
 		super.setSize(width, height);
 		JPanel layout = new JPanel(new BorderLayout());
-		this.board = new CheckerBoard(this);
-		this.opts = new OptionPanel(this);
+		this.board = new CheckerBoard(this , user);
+		this.opts = new OptionPanel(this,user);
 		layout.add(board, BorderLayout.CENTER);
 		layout.add(opts, BorderLayout.SOUTH);
 		this.add(layout);
 	}
 	public CheckerBoard getBoard() {
 		return board;
-	}
-	public void setPlayer1(Player player1) {
-		this.board.setPlayer1(player1);
-		this.board.update();
-	}
-	public void setPlayer2(Player player2) {
-		this.board.setPlayer2(player2);
-		this.board.update();
 	}
 
 }

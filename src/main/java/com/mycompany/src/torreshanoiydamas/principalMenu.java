@@ -4,7 +4,6 @@ import com.mycompany.src.torreshanoiydamas.ui.CheckersWindow;
 import com.mycompany.src.torreshanoiydamas.Principal;
 import com.mycompany.src.torreshanoiydamas.principalMenu;
 import com.mycompany.src.torreshanoiydamas.users.Users;
-import com.mycompany.src.torreshanoiydamas.users.Users;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -15,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author mdyoc
  */
 public class principalMenu extends javax.swing.JFrame {
-
+int x=0;
     ArrayList<Users> users= new ArrayList<>(); 
    
     /**
@@ -35,6 +34,7 @@ public class principalMenu extends javax.swing.JFrame {
         checkers = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         userName = new javax.swing.JLabel();
+        statistics = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -64,6 +64,13 @@ public class principalMenu extends javax.swing.JFrame {
 
         userName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         userName.setText("NoUser");
+
+        statistics.setText("Estadisticas de Juego");
+        statistics.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statisticsActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Usuarios");
         jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -110,9 +117,10 @@ public class principalMenu extends javax.swing.JFrame {
                         .addGap(190, 190, 190)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(hanoi, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(checkers, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(hanoi, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                                .addComponent(checkers, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                                .addComponent(statistics, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(161, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -121,19 +129,24 @@ public class principalMenu extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(113, 113, 113)
+                .addGap(75, 75, 75)
                 .addComponent(hanoi, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addGap(27, 27, 27)
                 .addComponent(checkers, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(statistics, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void hanoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hanoiActionPerformed
-        Principal Hanoi = new Principal(this);
+        Principal Hanoi;
+        Hanoi = new Principal(this, users.get(x));
+        
         Hanoi.setVisible(true);
+        
         Hanoi.setTitle("Torres de Hanoi");
         Hanoi.setDefaultCloseOperation(CheckersWindow.EXIT_ON_CLOSE);
         Hanoi.setLocationRelativeTo(null);
@@ -141,7 +154,7 @@ public class principalMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_hanoiActionPerformed
 
     private void checkersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkersActionPerformed
-	    CheckersWindow checkers = new CheckersWindow(500,500, "Damas");	
+	    CheckersWindow checkers = new CheckersWindow(500,500, "Damas", users.get(x));	
         checkers.setDefaultCloseOperation(CheckersWindow.EXIT_ON_CLOSE);
 		checkers.setLocationRelativeTo(null);
 		checkers.setVisible(true);
@@ -167,7 +180,7 @@ String[] builder = new String[users.size()];
  for (int a = 0; a < users.size(); a++) {
         builder[a]= users.get(a).getName();
     }
-int x = JOptionPane.showOptionDialog(null, "Elija cual de los usuarios desea ingresa", "Clickee el usuario que desea", WIDTH, HEIGHT, null, builder, DO_NOTHING_ON_CLOSE);
+ x = JOptionPane.showOptionDialog(null, "Elija cual de los usuarios desea ingresa", "Clickee el usuario que desea", WIDTH, HEIGHT, null, builder, DO_NOTHING_ON_CLOSE);
 System.out.println(x);
 userName.setText(users.get(x).getName());
 //String input = JOptionPane.showInputD  int x =JOptionPane.showOptionDialog(null, userName, "Elija su usuario", 200, 40, null, null, EXIT_ON_CLOSE);
@@ -181,6 +194,13 @@ userName.setText(users.get(x).getName());
 //    }
 //        userName.setText(users.get(0).getName());// TODO add your handling code here:
     }//GEN-LAST:event_jMenu2MouseClicked
+
+    private void statisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticsActionPerformed
+Statistics stats = new Statistics(users);
+this.setVisible(false);
+stats.setVisible(true);
+// TODO add your handling code here:
+    }//GEN-LAST:event_statisticsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -196,6 +216,7 @@ userName.setText(users.get(x).getName());
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JButton statistics;
     private javax.swing.JLabel userName;
     // End of variables declaration//GEN-END:variables
 }
