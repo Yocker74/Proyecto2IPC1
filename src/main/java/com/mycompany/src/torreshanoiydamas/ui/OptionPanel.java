@@ -1,6 +1,7 @@
 package com.mycompany.src.torreshanoiydamas.ui;
 
 
+import com.mycompany.src.torreshanoiydamas.principalMenu;
 import com.mycompany.src.torreshanoiydamas.users.Users;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -16,7 +17,7 @@ import javax.swing.JPanel;
 public class OptionPanel extends JPanel {
 
 	private CheckersWindow window;
-	private JButton saveGameButton;
+	private JButton saveGameButton, exitgame;
 	Timer timer;
 	int second=0;
         JButton loadGame;
@@ -36,24 +37,26 @@ public class OptionPanel extends JPanel {
 		this.saveGameButton = new JButton("Guardar Partida");
 		this.saveGameButton.addActionListener(ol);
 		this.initiate= new JButton("Iniciar Partida");
+		this.exitgame= new JButton("Volver al menú principal");
+		this.exitgame.addActionListener(ol);
 		this.initiate.addActionListener(ol);	
                 this.loadGame=new JButton("Cargar Partida");
-		JLabel labelTypeOfGame = new JLabel(" Juego contra otro jugador");
 		 chrono = new JLabel("00:00");
 		JPanel top = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JPanel middle = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JPanel bottom = new JPanel(new FlowLayout(FlowLayout.LEFT));
-				labelTypeOfGame.setBounds((int) CENTER_ALIGNMENT, 50, 100, 10);
+
                                 
 		top.add(saveGameButton);
 		top.add(initiate);
+		top.add(exitgame);
                 top.add(loadGame);
-		middle.add(new JLabel("(Negro) Jugador 1: "));
+		middle.add(new JLabel("(Negro) "+ user.getName()  +": "));
 		bottom.add(new JLabel("(Blanco) Jugador 2: "));
 		this.add(top);
 		this.add(middle);
 		this.add(bottom);
-		this.add(labelTypeOfGame);
+
 		this.add(chrono);
 		
 		
@@ -100,6 +103,16 @@ public class OptionPanel extends JPanel {
 				simpleTimer();
 		timer.start();
 		initiate.setVisible(false);
+			}
+			if (src== exitgame) {
+				window.setVisible(false);
+				user.setTiempoDamas(user.getTiempoDamas()+60*minute+second);
+				user.setjJDamas(user.getjJDamas()+1);
+				principalMenu newone = new principalMenu();
+				newone.setLocationRelativeTo(null);
+				newone.setVisible(true);
+				
+
 			}
 				
 			

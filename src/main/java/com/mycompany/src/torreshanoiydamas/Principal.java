@@ -553,7 +553,7 @@ moveFromCToA();        // TODO add your handling code here:
                 Node platform = new Node();
                 String disk="";
                 for (int j = i; j >0; j--) {
-                    disk +="#";                
+                    disk +="O";                
                 }
                 platform.setData(disk);
                 pilaTowerA.push(platform);
