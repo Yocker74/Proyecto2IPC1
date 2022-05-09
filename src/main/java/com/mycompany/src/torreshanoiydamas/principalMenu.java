@@ -197,7 +197,6 @@ userName.setText(users.get(x).getName());
 
     private void statisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticsActionPerformed
 Statistics stats = new Statistics(users);
-this.setVisible(false);
 stats.setVisible(true);
 // TODO add your handling code here:
     }//GEN-LAST:event_statisticsActionPerformed
